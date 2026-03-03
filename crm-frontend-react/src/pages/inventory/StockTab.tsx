@@ -15,7 +15,7 @@ interface StockTabProps {
   onBarcode: (item: InventoryItem) => void;
 }
 
-export default function StockTab({ items, categories, suppliers, onEdit, onDelete, onBarcode }: StockTabProps) {
+export default function StockTab({ items, categories, suppliers: _suppliers, onEdit, onDelete, onBarcode }: StockTabProps) {
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState<number | ''>('');
   const [stockFilter, setStockFilter] = useState<'' | 'critical' | 'low' | 'normal'>('');

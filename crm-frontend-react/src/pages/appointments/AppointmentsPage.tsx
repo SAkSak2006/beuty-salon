@@ -10,7 +10,7 @@ import { useUiStore } from '../../stores/uiStore';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AppointmentModal from './AppointmentModal';
 import AppointmentFilters, { statusConfig } from './AppointmentFilters';
-import { addDays, getStartOfWeek, getEndOfWeek, getStartOfMonth, getEndOfMonth } from '../../utils/dateUtils';
+import { getStartOfWeek, getEndOfWeek, getStartOfMonth, getEndOfMonth } from '../../utils/dateUtils';
 import type { Appointment, Client, Employee, Service, ServiceCategory, Schedule, AppointmentStatus } from '../../types';
 
 export default function AppointmentsPage() {
@@ -202,7 +202,7 @@ export default function AppointmentsPage() {
               setEditingAppointment(apt);
               setModalOpen(true);
             }}
-            select={(info) => {
+            select={(_info) => {
               setEditingAppointment(null);
               setModalOpen(true);
             }}

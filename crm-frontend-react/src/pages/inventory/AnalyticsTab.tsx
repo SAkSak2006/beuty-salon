@@ -8,7 +8,7 @@ interface AnalyticsTabProps {
   transactions: InventoryTransaction[];
 }
 
-export default function AnalyticsTab({ items, transactions }: AnalyticsTabProps) {
+export default function AnalyticsTab({ items, transactions: _transactions }: AnalyticsTabProps) {
   // ABC analysis
   const itemValues = items.map((item) => ({
     ...item,

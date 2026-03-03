@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../../components/ui/Modal';
 import type { Appointment, Client, Employee, Service, ServiceCategory, AppointmentStatus } from '../../types';
-import { getCurrentDate, getCurrentTime, addMinutesToTime, compareTimes } from '../../utils/dateUtils';
+import { getCurrentDate, addMinutesToTime, compareTimes } from '../../utils/dateUtils';
 
 interface AppointmentModalProps {
   isOpen: boolean;

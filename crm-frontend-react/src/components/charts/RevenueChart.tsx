@@ -31,7 +31,7 @@ export default function RevenueChart({ labels, data }: RevenueChartProps) {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => `${ctx.parsed.y.toLocaleString('ru-RU')} ₽`,
+              label: (ctx) => `${(ctx.parsed.y ?? 0).toLocaleString('ru-RU')} ₽`,
             },
           },
         },
