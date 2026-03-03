@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информационная система салона красоты</title>
+
+    <!-- Tailwind CSS (local) -->
+    <link rel="stylesheet" href="css/tailwind.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/ru.global.min.js'></script>
+
+    <!-- JsBarcode for barcode generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/appointments.css">
+    <link rel="stylesheet" href="css/clients.css">
+    <link rel="stylesheet" href="css/services.css">
+    <link rel="stylesheet" href="css/employees.css">
+    <link rel="stylesheet" href="css/reports.css">
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+
+<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-pink-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-spa text-4xl text-primary"></i>
+                    <div>
+                        <h1
+                            class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            BeautySalon
+                        </h1>
+                        <p class="text-sm text-gray-500">Информационная система</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600" id="current-date"></span>
+                    <button id="reset-data-btn"
+                        class="text-sm px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition">
+                        <i class="fas fa-sync-alt mr-2"></i>Сбросить данные
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-[88px] z-40">
+        <div class="container mx-auto px-4">
+            <ul class="flex space-x-1 overflow-x-auto" id="navigation">
+                <li>
+                    <a href="#dashboard"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-home"></i>
+                        <span>Главная</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#appointments"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Записи</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#clients"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-users"></i>
+                        <span>Клиенты</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#employees"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Сотрудники</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#services"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-cut"></i>
+                        <span>Услуги</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#reports"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Отчеты</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#inventory"
+                        class="nav-link flex items-center space-x-2 px-6 py-4 text-gray-600 hover:text-primary hover:bg-pink-50 transition border-b-2 border-transparent hover:border-primary">
+                        <i class="fas fa-box"></i>
+                        <span>Склад</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto px-4 py-8">
+        <div id="app" class="min-h-[calc(100vh-300px)]">
+            <!-- Content will be rendered here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-lg mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-gray-600">
+                    &copy; 2024 BeautySalon Information System
+                </p>
+                <p class="text-sm text-gray-500">
+                    PostgreSQL + Redis + RabbitMQ
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Auth module (must be first) -->
+    <script src="js/auth.js"></script>
+
+    <!-- Base utility scripts (no dependencies) -->
+    <script src="js/utils/toast.js"></script>
+    <script src="js/utils/modal.js"></script>
+    <script src="js/utils/date-utils.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/utils/performance.js"></script>
+    <script src="js/utils/security.js"></script>
+
+    <!-- Core database (required by other modules) -->
+    <script src="js/database.js"></script>
+
+    <!-- Advanced utilities (depend on database) -->
+    <script src="js/utils/ux-enhancements.js"></script>
+    <script src="js/utils/theme-manager.js"></script>
+    <script src="js/utils/global-features.js"></script>
+    <script src="js/utils/easter-eggs.js"></script>
+    <script src="js/utils/welcome.js"></script>
+
+    <!-- Application components -->
+    <script src="js/components/navigation.js"></script>
+    <script src="js/components/dashboard.js"></script>
+    <script src="js/components/appointments.js"></script>
+    <script src="js/components/clients.js"></script>
+    <script src="js/components/employees.js"></script>
+    <script src="js/components/services.js"></script>
+    <script src="js/components/reports.js"></script>
+    <script src="js/components/inventory.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

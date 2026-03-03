@@ -1,0 +1,505 @@
+/**
+ * Employees page specific styles
+ */
+
+/* Employee card animations */
+.employees-page .bg-white {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Employee card hover effect */
+.employees-page .bg-white.rounded-xl.shadow-md {
+    transition: all 0.3s ease;
+}
+
+.employees-page .bg-white.rounded-xl.shadow-md:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Photo upload hover effect */
+[onclick*="showPhotoUpload"] {
+    transition: all 0.2s ease;
+}
+
+[onclick*="showPhotoUpload"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Status badge animation */
+.employees-page [class*="rounded-full"] {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Skill level badge pulse */
+.employees-page [class*="skill"] {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.85;
+    }
+}
+
+/* Salary info box animation */
+.employees-page .bg-green-50 {
+    animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Statistics cards hover */
+.employees-page .bg-gradient-to-br {
+    transition: all 0.3s ease;
+}
+
+.employees-page .bg-gradient-to-br:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* View tabs transition */
+.employees-page button[onclick*="switchView"] {
+    transition: all 0.2s ease;
+}
+
+/* Photo preview circle */
+#photo-preview {
+    transition: all 0.3s ease;
+}
+
+#photo-preview img {
+    transition: all 0.3s ease;
+}
+
+#photo-preview:hover {
+    transform: scale(1.02);
+}
+
+/* Photo input file button */
+#photo-input + div {
+    transition: all 0.2s ease;
+}
+
+#photo-input:hover + div {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Schedule grid animations */
+.employees-page [class*="grid-cols-7"] > div {
+    animation: scaleIn 0.3s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.employees-page [class*="grid-cols-7"] > div:nth-child(1) { animation-delay: 0.05s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(2) { animation-delay: 0.1s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(3) { animation-delay: 0.15s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(4) { animation-delay: 0.2s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(5) { animation-delay: 0.25s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(6) { animation-delay: 0.3s; }
+.employees-page [class*="grid-cols-7"] > div:nth-child(7) { animation-delay: 0.35s; }
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Schedule modal editor */
+#schedule-editor .border {
+    transition: all 0.2s ease;
+}
+
+#schedule-editor .border:hover {
+    border-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+/* Schedule template buttons */
+[onclick*="applyScheduleTemplate"] {
+    transition: all 0.2s ease;
+}
+
+[onclick*="applyScheduleTemplate"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Vacation list items */
+#vacation-list > div > div {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Vacation type badges */
+#vacation-list [class*="rounded-full"] {
+    transition: all 0.2s ease;
+}
+
+#vacation-list [class*="rounded-full"]:hover {
+    transform: scale(1.05);
+}
+
+/* Competency matrix table */
+.employees-page table {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.employees-page table tr {
+    transition: all 0.2s ease;
+}
+
+.employees-page table tr:hover {
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+.employees-page table .fa-check-circle {
+    animation: checkBounce 0.5s ease-out;
+}
+
+@keyframes checkBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.employees-page table .fa-times-circle {
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+}
+
+.employees-page table tr:hover .fa-times-circle {
+    opacity: 0.5;
+}
+
+/* Contact info icons */
+.employees-page .fa-phone,
+.employees-page .fa-envelope,
+.employees-page .fa-calendar {
+    transition: all 0.2s ease;
+}
+
+.employees-page .flex.items-center:hover .fa-phone {
+    color: #ec4899;
+    transform: rotate(15deg);
+}
+
+.employees-page .flex.items-center:hover .fa-envelope {
+    color: #ec4899;
+}
+
+.employees-page .flex.items-center:hover .fa-calendar {
+    color: #ec4899;
+}
+
+/* Action buttons grid */
+.employees-page [class*="grid-cols-2"] button {
+    transition: all 0.2s ease;
+}
+
+.employees-page [class*="grid-cols-2"] button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal animations */
+.animate-modal-slide-up {
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Form inputs focus */
+.employees-page input:focus,
+.employees-page select:focus,
+.employees-page textarea:focus {
+    border-color: #ec4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Checkbox styling for specialization */
+.employees-page input[type="checkbox"] {
+    transition: all 0.2s ease;
+}
+
+.employees-page input[type="checkbox"]:checked {
+    background-color: #ec4899;
+    border-color: #ec4899;
+}
+
+.employees-page input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+/* Schedule working day checkbox */
+.schedule-working {
+    transition: all 0.2s ease;
+}
+
+.schedule-working:checked {
+    background-color: #10b981;
+    border-color: #10b981;
+}
+
+/* Time inputs in schedule */
+.schedule-start,
+.schedule-end {
+    transition: all 0.2s ease;
+}
+
+.schedule-start:focus,
+.schedule-end:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Vacation modal inputs */
+#vacation-start:focus,
+#vacation-end:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+/* Scrollbar customization */
+.employees-page .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.employees-page .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.employees-page .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #ec4899;
+    border-radius: 4px;
+}
+
+.employees-page .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #db2777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .employees-page .lg\\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .employees-page .md\\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .employees-page .grid-cols-7 {
+        grid-template-columns: repeat(7, minmax(80px, 1fr));
+        overflow-x: auto;
+    }
+
+    .employees-page table {
+        font-size: 0.875rem;
+    }
+
+    .employees-page table th,
+    .employees-page table td {
+        padding: 0.5rem 0.25rem;
+    }
+
+    #photo-preview {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 640px) {
+    .employees-page .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .employees-page button {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    #schedule-editor {
+        font-size: 0.875rem;
+    }
+
+    #vacation-list {
+        font-size: 0.875rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .employees-page button,
+    .employees-page .no-print {
+        display: none !important;
+    }
+
+    .employees-page .bg-white {
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+
+    .employees-page .bg-gradient-to-r {
+        background: #ec4899 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .employees-page table {
+        border: 1px solid #ddd;
+    }
+
+    .employees-page table th,
+    .employees-page table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+}
+
+/* Loading states */
+.employees-page .loading {
+    opacity: 0.5;
+    pointer-events: none;
+    position: relative;
+}
+
+.employees-page .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 3px solid #ec4899;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty state */
+.employees-page .empty-state {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Photo upload drag and drop */
+#photo-input:focus + div {
+    outline: 2px solid #ec4899;
+    outline-offset: 2px;
+}
+
+/* Salary calculation highlight */
+.employees-page .bg-green-50 .border-green-200 {
+    border-style: dashed;
+    animation: borderPulse 2s ease-in-out infinite;
+}
+
+@keyframes borderPulse {
+    0%, 100% {
+        border-color: #bbf7d0;
+    }
+    50% {
+        border-color: #10b981;
+    }
+}
+
+/* Status badges glow effect */
+.employees-page [class*="bg-green-500"],
+.employees-page [class*="bg-yellow-500"],
+.employees-page [class*="bg-red-500"] {
+    position: relative;
+}
+
+.employees-page [class*="bg-green-500"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}

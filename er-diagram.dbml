@@ -1,0 +1,286 @@
+// ============================================================
+//  Салон красоты "Мелисса" — ER-диаграмма базы данных PostgreSQL
+//  Вставьте этот код на https://dbdiagram.io
+//  Всего таблиц: 19
+// ============================================================
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 1: КАТАЛОГ УСЛУГ
+// ─────────────────────────────────────────
+
+TableGroup Каталог_услуг {
+  Категории_услуг
+  Услуги
+  История_цен
+  Материалы_для_услуг
+}
+
+Table Категории_услуг {
+  ид serial [pk, increment]
+  название varchar(255) [not null]
+  иконка varchar(50) [default: '']
+  цвет varchar(20) [default: '#ec4899']
+}
+
+Table Услуги {
+  ид serial [pk, increment]
+  название varchar(255) [not null]
+  ид_категории integer [ref: > Категории_услуг.ид]
+  цена decimal(10,2) [not null, default: 0]
+  длительность_мин integer [not null, default: 60]
+  описание text [default: '']
+  необходимые_материалы jsonb [default: '[]']
+  активна boolean [default: true]
+  порядок_сортировки integer [default: 0]
+}
+
+Table История_цен {
+  ид serial [pk, increment]
+  ид_услуги integer [ref: > Услуги.ид]
+  старая_цена decimal(10,2)
+  новая_цена decimal(10,2)
+  дата_изменения date
+  причина text [default: '']
+  кто_изменил varchar(100) [default: 'admin']
+}
+
+Table Материалы_для_услуг {
+  ид serial [pk, increment]
+  ид_услуги integer [ref: > Услуги.ид]
+  ид_материала integer [ref: > Склад.ид]
+  количество decimal(10,2) [default: 1]
+  ид_позиции integer
+  единица_измерения varchar(20) [default: '']
+}
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 2: ПЕРСОНАЛ
+// ─────────────────────────────────────────
+
+TableGroup Персонал {
+  Сотрудники
+  Расписание
+  Матрица_компетенций
+  Отпуска
+}
+
+Table Сотрудники {
+  ид serial [pk, increment]
+  ФИО varchar(255) [not null]
+  должность varchar(100) [default: '']
+  телефон varchar(50) [default: '']
+  email varchar(255) [default: '']
+  специализации jsonb [default: '[]']
+  оклад decimal(10,2) [default: 0]
+  процент_комиссии decimal(5,2) [default: 0]
+  статус varchar(20) [default: 'working', note: 'working / fired']
+  уровень varchar(20) [default: 'middle', note: 'junior / middle / senior']
+  фото text [default: '']
+  дата_приёма date
+}
+
+Table Расписание {
+  ид serial [pk, increment]
+  ид_сотрудника integer [ref: > Сотрудники.ид]
+  день_недели integer [not null, note: '0=Пн .. 6=Вс']
+  начало_смены varchar(10) [default: '09:00']
+  конец_смены varchar(10) [default: '18:00']
+  рабочий_день boolean [default: true]
+}
+
+Table Матрица_компетенций {
+  ид serial [pk, increment]
+  ид_сотрудника integer [ref: > Сотрудники.ид]
+  ид_услуги integer [ref: > Услуги.ид]
+  уровень_владения varchar(20) [default: 'middle']
+  индивид_длительность integer [default: 60]
+  может_выполнять boolean [default: true]
+}
+
+Table Отпуска {
+  ид serial [pk, increment]
+  ид_сотрудника integer [ref: > Сотрудники.ид]
+  дата_начала date [not null]
+  дата_окончания date [not null]
+  тип varchar(30) [default: 'vacation', note: 'vacation / sick / personal']
+  причина text [default: '']
+  дата_создания timestamp [default: `now()`]
+}
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 3: КЛИЕНТЫ
+// ─────────────────────────────────────────
+
+TableGroup Клиенты {
+  Клиенты
+  Пользователи_Telegram
+}
+
+Table Клиенты {
+  ид serial [pk, increment]
+  ФИО varchar(255) [not null]
+  телефон varchar(50) [default: '']
+  email varchar(255) [default: '']
+  дата_рождения date
+  дата_регистрации date
+  заметки text [default: '']
+  всего_визитов integer [default: 0]
+  всего_потрачено decimal(10,2) [default: 0]
+  скидка_процент decimal(5,2) [default: 0]
+  последний_визит date
+}
+
+Table Пользователи_Telegram {
+  ид serial [pk, increment]
+  telegram_id bigint [unique, not null]
+  имя varchar(255)
+  фамилия varchar(255)
+  username varchar(255)
+  телефон varchar(50)
+  ид_клиента integer [ref: > Клиенты.ид]
+  дата_создания timestamp [default: `now()`]
+}
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 4: ЗАПИСИ И ОПЛАТЫ
+// ─────────────────────────────────────────
+
+TableGroup Записи_и_оплаты {
+  Записи_на_приём
+  Платежи
+}
+
+Table Записи_на_приём {
+  ид serial [pk, increment]
+  ид_клиента integer [ref: > Клиенты.ид]
+  ид_мастера integer [ref: > Сотрудники.ид]
+  ид_услуги integer [ref: > Услуги.ид]
+  дата date [not null]
+  время varchar(10) [not null]
+  длительность_мин integer [default: 60]
+  статус varchar(20) [default: 'pending', note: 'pending / confirmed / completed / cancelled / no_show']
+  комментарий text [default: '']
+  дата_создания timestamp [default: `now()`]
+  дата_обновления timestamp [default: `now()`]
+}
+
+Table Платежи {
+  ид serial [pk, increment]
+  ид_записи integer [ref: > Записи_на_приём.ид]
+  сумма decimal(10,2) [not null, default: 0]
+  способ_оплаты varchar(30) [default: 'cash', note: 'cash / card / transfer']
+  дата date
+  статус varchar(20) [default: 'completed']
+  дата_создания timestamp [default: `now()`]
+}
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 5: СКЛАД И ПОСТАВКИ
+// ─────────────────────────────────────────
+
+TableGroup Склад_и_поставки {
+  Категории_склада
+  Поставщики
+  Склад
+  Движение_товаров
+  Заказы_поставщикам
+}
+
+Table Категории_склада {
+  ид serial [pk, increment]
+  название varchar(255) [not null]
+  иконка varchar(50) [default: '']
+  цвет varchar(20) [default: '#ec4899']
+}
+
+Table Поставщики {
+  ид serial [pk, increment]
+  название varchar(255) [not null]
+  телефон varchar(50) [default: '']
+  email varchar(255) [default: '']
+  срок_доставки_дней integer [default: 3]
+}
+
+Table Склад {
+  ид serial [pk, increment]
+  наименование varchar(255) [not null]
+  категория_текст varchar(100) [default: '']
+  количество decimal(10,2) [default: 0]
+  единица_измерения varchar(20) [default: 'шт']
+  мин_остаток_старый decimal(10,2) [default: 0]
+  цена_продажи decimal(10,2) [default: 0]
+  поставщик_текст varchar(255) [default: '']
+  дата_последней_поставки date
+  артикул varchar(50) [default: '']
+  ид_категории integer [ref: > Категории_склада.ид]
+  текущий_остаток decimal(10,2) [default: 0]
+  мин_остаток decimal(10,2) [default: 0]
+  закупочная_цена decimal(10,2) [default: 0]
+  ид_поставщика integer [ref: > Поставщики.ид]
+  срок_годности date
+  штрих_код varchar(100) [default: '']
+}
+
+Table Движение_товаров {
+  ид serial [pk, increment]
+  ид_позиции_склада integer [ref: > Склад.ид]
+  тип varchar(20) [default: 'in', note: 'in=приход / out=расход / write_off=списание']
+  количество decimal(10,2) [default: 0]
+  дата date
+  примечание text [default: '']
+  ид_позиции integer
+  причина text [default: '']
+  ид_сотрудника integer [ref: > Сотрудники.ид]
+  ид_поставщика integer [ref: > Поставщики.ид]
+  цена decimal(10,2)
+}
+
+Table Заказы_поставщикам {
+  ид serial [pk, increment]
+  ид_поставщика integer [ref: > Поставщики.ид]
+  статус varchar(20) [default: 'pending', note: 'pending / ordered / delivered']
+  сумма_заказа decimal(10,2) [default: 0]
+  дата_заказа date
+  дата_доставки date
+  примечание text [default: '']
+  дата date
+  позиции_заказа jsonb [default: '[]']
+  ид_создателя integer [ref: > Пользователи_системы.ид]
+}
+
+
+// ─────────────────────────────────────────
+//  ГРУППА 6: АВТОРИЗАЦИЯ И АУДИТ
+// ─────────────────────────────────────────
+
+TableGroup Авторизация_и_аудит {
+  Пользователи_системы
+  Журнал_аудита
+}
+
+Table Пользователи_системы {
+  ид serial [pk, increment]
+  логин varchar(100) [unique, not null]
+  хеш_пароля varchar(255) [not null]
+  роль varchar(20) [not null, default: 'master', note: 'admin / master / owner']
+  ид_сотрудника integer [ref: > Сотрудники.ид]
+  активен boolean [default: true]
+  дата_создания timestamp [default: `now()`]
+}
+
+Table Журнал_аудита {
+  ид serial [pk, increment]
+  ид_пользователя integer [ref: > Пользователи_системы.ид]
+  действие varchar(50) [not null, note: 'create / update / delete']
+  тип_сущности varchar(50)
+  ид_сущности integer
+  данные_до jsonb
+  данные_после jsonb
+  IP_адрес varchar(45)
+  дата_и_время timestamp [default: `now()`]
+}

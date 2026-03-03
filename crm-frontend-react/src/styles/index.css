@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ec4899;
+  --color-secondary: #8b5cf6;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 50%, #fdf2f8 100%);
+}
+
+.login-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* FullCalendar overrides */
+.fc .fc-button-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #db2777 !important;
+  border-color: #db2777 !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--color-secondary) !important;
+  border-color: var(--color-secondary) !important;
+}
+
+.fc .fc-event {
+  border-radius: 4px;
+  font-size: 0.8rem;
+  padding: 1px 4px;
+}
+
+/* Toast animation */
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+.toast-enter { animation: slideIn 0.3s ease-out; }
+.toast-exit { animation: slideOut 0.3s ease-in; }
+
+/* Print */
+@media print {
+  header, nav, footer, .no-print { display: none !important; }
+  body { background: white !important; }
+  main { padding: 0 !important; }
+}

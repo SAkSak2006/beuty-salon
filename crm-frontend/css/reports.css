@@ -1,0 +1,306 @@
+/**
+ * Reports specific styles
+ */
+
+/* Chart card animations */
+.chart-card {
+    transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Report summary cards gradient backgrounds */
+.report-card-revenue {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.report-card-avg-check {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.report-card-completed {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.report-card-conversion {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+/* Top clients table */
+.top-clients-table tr {
+    transition: all 0.2s ease;
+}
+
+.top-clients-table tr:hover {
+    background-color: rgba(236, 72, 153, 0.05);
+    transform: scale(1.01);
+}
+
+/* Trophy icons for top performers */
+.trophy-icon {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Financial summary cards */
+.financial-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.financial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.financial-card:hover::before {
+    left: 100%;
+}
+
+/* Period selector */
+#report-period {
+    background-image: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+}
+
+#report-period option {
+    background: white;
+    color: #374151;
+}
+
+/* Chart legends */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-legend-color {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+}
+
+/* Tab buttons */
+.tab-btn {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #6b7280;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+.tab-btn.active {
+    color: #ec4899;
+    border-bottom-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* KPI cards animation */
+.kpi-card {
+    animation: slideInUp 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RFM segment cards */
+.rfm-segment-card {
+    animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Cohort analysis heatmap cells */
+.cohort-cell {
+    transition: all 0.2s ease;
+}
+
+.cohort-cell:hover {
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Export buttons */
+.reports-page button[onclick*="export"] {
+    transition: all 0.2s ease;
+}
+
+.reports-page button[onclick*="export"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Date range inputs */
+.reports-page input[type="date"],
+.reports-page select {
+    transition: all 0.2s ease;
+}
+
+.reports-page input[type="date"]:focus,
+.reports-page select:focus {
+    outline: none;
+    border-color: #ec4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Table hover effects */
+.reports-page table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.reports-page table tbody tr:hover {
+    background-color: rgba(236, 72, 153, 0.03);
+    transform: translateX(2px);
+}
+
+/* Progress bars in tables */
+.progress-bar {
+    transition: width 0.5s ease-out;
+}
+
+/* Print styles */
+@media print {
+    .reports-page button,
+    .reports-page .no-print {
+        display: none !important;
+    }
+
+    .reports-page .tab-btn {
+        display: none !important;
+    }
+
+    .reports-page .tab-content {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+
+    .reports-page table {
+        border: 1px solid #ddd;
+        font-size: 10pt;
+    }
+
+    .kpi-card {
+        page-break-inside: avoid;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .reports-page .grid-cols-5 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reports-page .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reports-page table {
+        font-size: 0.75rem;
+    }
+
+    .reports-page table th,
+    .reports-page table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .tab-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .kpi-card {
+        padding: 1rem !important;
+    }
+
+    .kpi-card p.text-3xl {
+        font-size: 1.5rem !important;
+    }
+}

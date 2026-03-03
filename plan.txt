@@ -1,0 +1,158 @@
+Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ План: ИС "Салон красоты" с Telegram чат-ботом
+
+ Контекст
+
+ Дипломный проект (09.02.07, Мегионский политехнический колледж, защита лето 2026). Существует рабочий прототип CRM на
+ Vanilla JS + Express + SQLite с полным функционалом (дашборд, записи, клиенты, сотрудники, услуги, склад, отчёты). Нет
+  авторизации и чат-бота. Цель: превратить в полноценную ИС с PostgreSQL + Redis + RabbitMQ + Telegram бот с Mini App
+ для бронирования.
+
+ Архитектура
+
+ beauty-salon/
+ ├── docker-compose.yml          # PostgreSQL + Redis + RabbitMQ
+ ├── .env
+ ├── crm-frontend/               # Существующий фронтенд (Vanilla JS) + логин
+ ├── api-server/                  # Express + PostgreSQL + JWT + Redis + RabbitMQ
+ ├── telegram-bot/                # grammy бот (кнопки + Mini App)
+ └── mini-app/                    # Vue 3 + Vite (веб-приложение внутри Telegram)
+
+ Стек: Node.js/Express, PostgreSQL, Redis, RabbitMQ, grammy, Vue 3 + Vite, Docker Compose
+
+ Фаза 1: Фундамент — PostgreSQL (недели 1-2)
+
+ Перевод бэкенда с SQLite на PostgreSQL. Фронтенд не трогаем.
+
+ 1. Создать структуру api-server/ с package.json (pg, express, cors, dotenv, bcrypt, jsonwebtoken, helmet, morgan,
+ amqplib, redis, express-validator)
+ 2. Написать docker-compose.yml (postgres:16-alpine, redis:7-alpine, rabbitmq:3-management-alpine)
+ 3. Написать SQL-миграцию 001_initial_schema.sql — перевод 17 таблиц из server/database.js:
+   - INTEGER PRIMARY KEY AUTOINCREMENT → SERIAL PRIMARY KEY
+   - TEXT даты → DATE/TIMESTAMP
+   - INTEGER булевы → BOOLEAN
+   - JSON в TEXT → JSONB
+   - Добавить FOREIGN KEY, индексы на appointments(date, employee_id), appointments(client_id)
+ 4. Переписать crud-factory.js для async pg (параметры $1, $2 вместо ?)
+ 5. Портировать все 17 route-файлов
+ 6. Портировать reports.js (214 строк, 8 аналитических endpoint'ов, SQLite → PostgreSQL диалект)
+ 7. Написать скрипт миграции данных из salon.db в PostgreSQL
+ 8. Обновить API_BASE во фронтенде
+
+ Файлы: server/database.js (схема), server/routes/crud-factory.js (CRUD-фабрика), server/routes/reports.js
+
+ Проверка: все страницы CRM работают как раньше, но с PostgreSQL.
+
+ Фаза 2: Авторизация (недели 3-4)
+
+ 9. Миграция 002_users_table.sql:
+ users (id, username, password_hash, role['admin','master','owner'], employee_id FK, is_active, created_at)
+ 10. Миграция 003_audit_log.sql:
+ audit_log (id, user_id FK, action, entity_type, entity_id, old_data JSONB, new_data JSONB, ip_address, created_at)
+ 11. api-server/src/routes/auth.js — POST /login (bcrypt verify → JWT access 15min + refresh 7d)
+ 12. api-server/src/middleware/auth.js — JWT verify middleware
+ 13. api-server/src/middleware/roles.js — requireRole('admin', 'owner') guard
+ 14. Защитить все маршруты по матрице:
+   - Публичные: POST /auth/login, GET /booking/* (с Telegram-валидацией)
+   - master: свои записи, клиенты (чтение), услуги (чтение)
+   - admin: всё кроме управления сотрудниками
+   - owner: полный доступ
+ 15. crm-frontend/login.html — страница входа (Tailwind)
+ 16. crm-frontend/js/auth.js — JWT хранение, getUser(), hasRole(), logout()
+ 17. Модифицировать js/database.js → добавить Authorization: Bearer в _apiCall() + редирект при 401
+ 18. Модифицировать js/app.js → auth guard в init()
+ 19. Модифицировать js/components/navigation.js → скрытие пунктов меню по роли
+ 20. Seed admin пользователя (admin/admin123)
+
+ Файлы: js/database.js (строка 85-91, метод _apiCall), js/app.js, index.html (строки 146-173)
+
+ Проверка: логин работает, роли ограничивают доступ, аудит пишется.
+
+ Фаза 3: Telegram бот (недели 5-6)
+
+ 21. Зарегистрировать бота в @BotFather
+ 22. Создать telegram-bot/ с grammy
+ 23. /start → сохранение в telegram_users + главное меню (ReplyKeyboard):
+ [Записаться]  [Мои записи]
+ [Услуги и цены]  [О салоне]
+ 24. Миграция 004_telegram_users.sql:
+ telegram_users (id, telegram_id BIGINT UNIQUE, first_name, last_name, username, phone, client_id FK, created_at)
+ 25. "Услуги и цены" → inline-кнопки категорий → услуги с ценами/длительностью
+ 26. "О салоне" → статическое сообщение (адрес, телефон, часы работы)
+ 27. "Мои записи" → запрос к API → список записей с кнопкой "Отменить"
+ 28. "Записаться" → inline-кнопка с web_app: { url: MINI_APP_URL } → открывает Mini App
+ 29. Публичный API api-server/src/routes/booking.js:
+   - GET /api/booking/services — услуги с категориями
+   - GET /api/booking/masters?serviceId=X — мастера для услуги
+   - GET /api/booking/slots?employeeId=X&date=Y&serviceId=Z — свободные слоты
+   - POST /api/booking/create — создание записи
+   - GET /api/booking/my?telegramId=X — записи клиента
+   - DELETE /api/booking/:id — отмена записи
+ 30. api-server/src/middleware/telegram-auth.js — валидация Telegram initData (HMAC-SHA-256)
+
+ Проверка: бот отвечает, показывает услуги и записи.
+
+ Фаза 4: Mini App — бронирование (недели 7-9)
+
+ 31. Scaffold mini-app/ — Vue 3 + Vite + @twa-dev/sdk
+ 32. main.js — инициализация Telegram Web App SDK (tg.ready(), tg.expand())
+ 33. App.vue — wizard с 5 шагами + компонент StepIndicator.vue
+ 34. Шаг 1 — ServiceSelect.vue: категории-карточки → услуги с ценой/длительностью
+ 35. Шаг 2 — MasterSelect.vue: мастера для выбранной услуги (из competency_matrix) + "Любой мастер"
+ 36. Шаг 3 — DateSelect.vue: календарь на 14 дней (серые — выходные/отпуска мастера)
+ 37. Шаг 4 — TimeSelect.vue: chips свободных слотов (из GET /booking/slots, кэш Redis)
+ 38. Шаг 5 — Confirmation.vue: итог (услуга, мастер, дата, время, цена) → "Подтвердить" → Telegram.WebApp.close()
+ 39. api-server/src/services/booking-service.js — расчёт свободных слотов:
+   - Расписание мастера (schedule) → рабочие часы
+   - Минус существующие записи (appointments)
+   - Минус отпуска (vacations)
+   - Генерация слотов каждые 30 мин
+ 40. Стилизация под тему Telegram (var(--tg-theme-bg-color) и т.д.)
+ 41. Деплой Mini App (ngrok для разработки → Vercel/Netlify для продакшена)
+
+ Проверка: полный цикл — бот → Mini App → выбор услуги/мастера/даты/времени → запись появляется в CRM.
+
+ Фаза 5: Redis + RabbitMQ + Уведомления (недели 10-11)
+
+ 42. api-server/src/config/redis.js — подключение Redis
+ 43. api-server/src/services/cache-service.js — обёртка (get/set/invalidate)
+ 44. Кэширование: services:all (TTL 5 мин), slots:{employeeId}:{date} (TTL 2 мин)
+ 45. Инвалидация кэша при создании/изменении/отмене записи
+ 46. api-server/src/config/rabbitmq.js — подключение RabbitMQ
+ 47. POST /booking/create → publish в очередь booking_requests → возврат {status: 'processing'}
+ 48. api-server/src/consumers/booking-consumer.js:
+   - BEGIN транзакция
+   - SELECT ... FOR UPDATE (блокировка слота мастера)
+   - Проверка конфликтов
+   - INSERT appointment
+   - COMMIT
+   - Отправка результата клиенту через Telegram
+ 49. Cron-уведомления о записях (за 2 часа) через node-cron
+
+ Проверка: одновременные бронирования не создают конфликтов, уведомления приходят.
+
+ Фаза 6: Полировка и подготовка к защите (неделя 12)
+
+ 50. Demo-данные для защиты (клиенты, записи, мастера за 3 месяца)
+ 51. Исправление багов
+ 52. UML-диаграммы для диплома (use case, sequence, deployment, ER)
+ 53. Скриншоты всех экранов
+ 54. Сценарий демонстрации
+
+ Упрощения при нехватке времени
+
+ 1. RabbitMQ → заменить на SELECT ... FOR UPDATE в PostgreSQL (та же защита от гонок)
+ 2. Redis → заменить на Map в памяти с TTL (показывает концепцию)
+ 3. Vue Mini App → Vanilla JS + Telegram Web App SDK (проще)
+ 4. Роль master → реализовать последней, начать с admin/owner
+
+ Верификация
+
+ 1. docker-compose up -d → PostgreSQL, Redis, RabbitMQ запущены
+ 2. cd api-server && npm start → CRM API на порту 3000
+ 3. Открыть crm-frontend/login.html → войти как admin → все разделы работают
+ 4. Открыть Telegram бот → /start → кнопки работают
+ 5. "Записаться" → Mini App → выбрать услугу → мастера → дату → время → подтвердить
+ 6. В CRM появилась новая запись
+ 7. За 2 часа до записи — уведомление в Telegram

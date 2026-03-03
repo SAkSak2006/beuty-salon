@@ -1,0 +1,567 @@
+/**
+ * Inventory module styles
+ */
+
+/* Alert cards animation */
+.alert-card {
+    transition: all 0.3s ease;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.alert-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tab styles */
+.inventory-page .tab-btn {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #6b7280;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.inventory-page .tab-btn:hover {
+    color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+.inventory-page .tab-btn.active {
+    color: #ec4899;
+    border-bottom-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+/* Tab content */
+.inventory-page .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.inventory-page .tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stock level row colors */
+.inventory-page .stock-row[data-stock-level="critical"] {
+    background-color: rgba(239, 68, 68, 0.03);
+    animation: pulse-critical 2s ease-in-out infinite;
+}
+
+.inventory-page .stock-row[data-stock-level="low"] {
+    background-color: rgba(245, 158, 11, 0.03);
+}
+
+.inventory-page .stock-row[data-stock-level="normal"] {
+    background-color: transparent;
+}
+
+@keyframes pulse-critical {
+    0%, 100% {
+        background-color: rgba(239, 68, 68, 0.03);
+    }
+    50% {
+        background-color: rgba(239, 68, 68, 0.08);
+    }
+}
+
+/* Stock level badges */
+.inventory-page .stock-row[data-stock-level="critical"] .fas {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-2px);
+    }
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+/* Stock table hover effect */
+.inventory-page table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.inventory-page table tbody tr:hover {
+    transform: translateX(2px);
+}
+
+/* Filter inputs */
+.inventory-page input[type="text"],
+.inventory-page input[type="number"],
+.inventory-page input[type="date"],
+.inventory-page input[type="email"],
+.inventory-page input[type="tel"],
+.inventory-page select,
+.inventory-page textarea {
+    transition: all 0.2s ease;
+}
+
+.inventory-page input[type="text"]:focus,
+.inventory-page input[type="number"]:focus,
+.inventory-page input[type="date"]:focus,
+.inventory-page input[type="email"]:focus,
+.inventory-page input[type="tel"]:focus,
+.inventory-page select:focus,
+.inventory-page textarea:focus {
+    outline: none;
+    border-color: #ec4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Action buttons */
+.inventory-page button {
+    transition: all 0.2s ease;
+}
+
+.inventory-page button:hover {
+    transform: translateY(-1px);
+}
+
+.inventory-page button:active {
+    transform: translateY(0);
+}
+
+/* Barcode display */
+#barcode-display {
+    display: inline-block;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Procurement auto-generate card */
+.inventory-page .bg-gradient-to-br {
+    position: relative;
+    overflow: hidden;
+}
+
+.inventory-page .bg-gradient-to-br::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Supplier card hover */
+.inventory-page .hover\:bg-gray-100:hover {
+    cursor: pointer;
+}
+
+/* ABC Analysis cards */
+.inventory-page .bg-gradient-to-br.from-green-500 {
+    animation: glow-green 2s ease-in-out infinite alternate;
+}
+
+.inventory-page .bg-gradient-to-br.from-yellow-500 {
+    animation: glow-yellow 2s ease-in-out infinite alternate;
+}
+
+.inventory-page .bg-gradient-to-br.from-gray-500 {
+    animation: glow-gray 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-green {
+    from {
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+    }
+    to {
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
+    }
+}
+
+@keyframes glow-yellow {
+    from {
+        box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+    }
+    to {
+        box-shadow: 0 10px 25px rgba(245, 158, 11, 0.5);
+    }
+}
+
+@keyframes glow-gray {
+    from {
+        box-shadow: 0 5px 15px rgba(107, 114, 128, 0.3);
+    }
+    to {
+        box-shadow: 0 10px 25px rgba(107, 114, 128, 0.5);
+    }
+}
+
+/* Movement type badges */
+.inventory-page .bg-green-100 {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: #059669 !important;
+}
+
+.inventory-page .bg-blue-100 {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: #2563eb !important;
+}
+
+.inventory-page .bg-red-100 {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #dc2626 !important;
+}
+
+.inventory-page .bg-yellow-100 {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    color: #d97706 !important;
+}
+
+/* Progress bar animation */
+.inventory-page .progress-bar {
+    transition: width 0.5s ease-out;
+    animation: progress-load 1s ease-out;
+}
+
+@keyframes progress-load {
+    from {
+        width: 0;
+    }
+}
+
+/* Expiring items urgency indicator */
+.inventory-page tr:has(.bg-red-100.text-red-800) {
+    background-color: rgba(239, 68, 68, 0.02);
+    border-left: 3px solid #ef4444;
+}
+
+.inventory-page tr:has(.bg-yellow-100.text-yellow-800) {
+    background-color: rgba(245, 158, 11, 0.02);
+    border-left: 3px solid #f59e0b;
+}
+
+/* Service material cards */
+.inventory-page .bg-gray-50 {
+    transition: all 0.2s ease;
+}
+
+.inventory-page .bg-gray-50:hover {
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+/* Loading spinner for operations */
+.inventory-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(236, 72, 153, 0.2);
+    border-top-color: #ec4899;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Modal overlay for inventory operations */
+.inventory-page .modal-overlay {
+    backdrop-filter: blur(4px);
+    animation: fadeInOverlay 0.2s ease-out;
+}
+
+@keyframes fadeInOverlay {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Print styles */
+@media print {
+    .inventory-page button,
+    .inventory-page .no-print {
+        display: none !important;
+    }
+
+    .inventory-page .tab-btn {
+        display: none !important;
+    }
+
+    .inventory-page .tab-content {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+
+    .inventory-page table {
+        border: 1px solid #ddd;
+        font-size: 10pt;
+    }
+
+    .inventory-page .alert-card {
+        page-break-inside: avoid;
+    }
+
+    /* Barcode print optimization */
+    #barcode-display {
+        page-break-inside: avoid;
+        margin: 20px auto;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .inventory-page .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .inventory-page .grid-cols-5 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .inventory-page .tab-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .inventory-page table {
+        font-size: 0.75rem;
+    }
+
+    .inventory-page table th,
+    .inventory-page table td {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .inventory-page .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .inventory-page .alert-card {
+        padding: 1rem !important;
+    }
+
+    .inventory-page .alert-card p.text-4xl {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .inventory-page .tab-btn {
+        padding: 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .inventory-page .grid-cols-3,
+    .inventory-page .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Make table horizontally scrollable */
+    .inventory-page .overflow-x-auto {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Stock level color indicators for charts and visualizations */
+.stock-indicator-critical {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+}
+
+.stock-indicator-low {
+    color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+}
+
+.stock-indicator-normal {
+    color: #10b981;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+}
+
+/* Tooltip styles for inventory items */
+.inventory-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+    animation: tooltipFade 0.2s ease-out;
+}
+
+@keyframes tooltipFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Category icon colors */
+.inventory-page .category-icon {
+    transition: all 0.2s ease;
+}
+
+.inventory-page .category-icon:hover {
+    transform: scale(1.2);
+}
+
+/* Export button animation */
+.inventory-page button[onclick*="export"] {
+    position: relative;
+    overflow: hidden;
+}
+
+.inventory-page button[onclick*="export"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.inventory-page button[onclick*="export"]:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Purchase order status colors */
+.status-pending {
+    color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.1);
+}
+
+.status-ordered {
+    color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.status-received {
+    color: #10b981;
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+.status-cancelled {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Drag and drop area for CSV upload (future feature) */
+.inventory-drop-zone {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.inventory-drop-zone:hover {
+    border-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.02);
+}
+
+.inventory-drop-zone.active {
+    border-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+/* Notification pulse for critical items */
+.inventory-page .critical-pulse {
+    animation: criticalPulse 2s ease-in-out infinite;
+}
+
+@keyframes criticalPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+}
+
+/* Search highlight */
+.inventory-highlight {
+    background-color: rgba(236, 72, 153, 0.2);
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+/* Scroll bar customization */
+.inventory-page .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inventory-page .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.inventory-page .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #ec4899;
+    border-radius: 4px;
+}
+
+.inventory-page .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #db2777;
+}

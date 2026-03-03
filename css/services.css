@@ -1,0 +1,296 @@
+/**
+ * Services page specific styles
+ */
+
+/* Service row hover and drag effects */
+.service-row {
+    cursor: grab;
+}
+
+.service-row:active {
+    cursor: grabbing;
+}
+
+.service-row:hover {
+    transform: translateX(4px);
+}
+
+/* Drag and drop */
+.service-row[draggable="true"]:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Category header animations */
+.service-category {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Service row stagger animation */
+.service-row {
+    animation: fadeInSlide 0.3s ease-out;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Toggle switch animation */
+.peer:checked + div:after {
+    animation: slideToggle 0.2s ease-out;
+}
+
+@keyframes slideToggle {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(0.3rem);
+    }
+    100% {
+        transform: translateX(1.25rem);
+    }
+}
+
+/* Calculator button highlight */
+#calc-btn {
+    transition: all 0.2s ease;
+}
+
+#calc-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Price display animation on hover */
+.service-row [onclick*="showInlinePriceEdit"]:hover {
+    border-color: #ec4899 !important;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Modal animations */
+.animate-modal-slide-up {
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Stats cards hover effect */
+.services-page .bg-gradient-to-br {
+    transition: all 0.3s ease;
+}
+
+.services-page .bg-gradient-to-br:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Search input focus */
+#service-search:focus {
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+    border-color: #ec4899;
+}
+
+/* Category filter dropdown */
+#category-filter:focus {
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+    border-color: #ec4899;
+}
+
+/* Price history modal timeline effect */
+#price-history-content > div > div {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Calculator modal content animation */
+#calculator-content > div {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Bulk price modal warning box */
+#bulk-price-modal .bg-yellow-50 {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Service materials display */
+.service-row [class*="fa-box"] {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/* Active/Inactive toggle badge */
+.service-row .fa-check-circle,
+.service-row .fa-times-circle {
+    transition: all 0.2s ease;
+}
+
+.service-row:hover .fa-check-circle {
+    color: #10b981;
+}
+
+.service-row:hover .fa-times-circle {
+    color: #6b7280;
+}
+
+/* Action buttons hover effects */
+.service-row button {
+    transition: all 0.2s ease;
+}
+
+.service-row button:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-row {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .service-row > div:last-child {
+        width: 100%;
+        margin-top: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .services-page .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .services-page .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .service-row [onclick*="showInlinePriceEdit"] {
+        font-size: 0.875rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .services-page button,
+    .services-page .no-print {
+        display: none !important;
+    }
+
+    .service-category {
+        page-break-inside: avoid;
+    }
+
+    .service-row {
+        border: 1px solid #ddd;
+        margin-bottom: 0.5rem;
+        page-break-inside: avoid;
+    }
+}
+
+/* Loading states */
+.service-row.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.service-row.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #ec4899;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar customization for modal */
+.services-page .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.services-page .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.services-page .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #ec4899;
+    border-radius: 4px;
+}
+
+.services-page .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #db2777;
+}

@@ -1,0 +1,209 @@
+/**
+ * Main stylesheet
+ * Modern design with pink/purple color scheme
+ */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ec4899;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #db2777;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Body */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Page animations */
+#app > div {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Card hover effects */
+.hover\:shadow-lg:hover {
+    transform: translateY(-2px);
+}
+
+/* Button styles */
+button, .btn {
+    cursor: pointer;
+    user-select: none;
+}
+
+button:active, .btn:active {
+    transform: scale(0.98);
+}
+
+/* Form inputs */
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+/* Table styles */
+table {
+    border-collapse: collapse;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Modal backdrop */
+.fixed.inset-0 {
+    backdrop-filter: blur(2px);
+}
+
+/* Loading spinner */
+.spinner {
+    border: 3px solid rgba(236, 72, 153, 0.1);
+    border-top-color: #ec4899;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Badge animations */
+.badge {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* Gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Custom shadows */
+.shadow-luxury {
+    box-shadow: 0 10px 40px rgba(236, 72, 153, 0.1);
+}
+
+/* Glassmorphism effect */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+    .text-3xl {
+        font-size: 1.75rem;
+    }
+
+    .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    .shadow, .shadow-md, .shadow-lg {
+        box-shadow: none !important;
+    }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid #ec4899;
+    outline-offset: 2px;
+}
+
+/* Custom selection */
+::selection {
+    background-color: #ec4899;
+    color: white;
+}
+
+::-moz-selection {
+    background-color: #ec4899;
+    color: white;
+}
