@@ -33,13 +33,6 @@ export default function EmployeeSchedule({ employees, schedules, onSaveSchedule,
     setEditingCell(null);
   };
 
-  const _toggleWorkingDay = (empId: number, day: number) => {
-    const existing = getSchedule(empId, day);
-    if (existing) {
-      onSaveSchedule({ id: existing.id, employeeId: empId, dayOfWeek: day, isWorkingDay: !existing.isWorkingDay, startTime: existing.startTime, endTime: existing.endTime });
-    }
-  };
-
   return (
     <div className="bg-white rounded-xl shadow-md overflow-x-auto">
       <table className="w-full">
