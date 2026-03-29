@@ -205,11 +205,11 @@ export default function ClientsPage() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {paginatedItems.map((client) => (
-                <tr key={client.id} className="hover:bg-gray-50">
+                <tr key={client.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => setViewingClient(client)}>
                   <td className="px-4 py-3">
-                    <button onClick={() => setViewingClient(client)} className="text-pink-600 hover:underline font-medium">
+                    <span className="text-pink-600 font-medium">
                       {client.name}
-                    </button>
+                    </span>
                     {client.source === 'telegram' && (
                       <span className="ml-2 text-xs bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded">TG</span>
                     )}
@@ -218,7 +218,7 @@ export default function ClientsPage() {
                   <td className="px-4 py-3 text-sm text-gray-600">{client.totalVisits}</td>
                   <td className="px-4 py-3 text-sm text-gray-600">{formatCurrency(client.totalSpent)}</td>
                   <td className="px-4 py-3 text-sm text-gray-600">{formatDate(client.registrationDate)}</td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                     <button onClick={() => { setEditingClient(client); setModalOpen(true); }}
                       className="text-blue-500 hover:text-blue-700 mr-3" title="Редактировать">
                       <i className="fas fa-edit" />
