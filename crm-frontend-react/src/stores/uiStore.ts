@@ -10,12 +10,15 @@ export interface Toast {
 
 interface UiState {
   toasts: Toast[];
+  theme: 'light' | 'dark';
   addToast: (type: ToastType, message: string) => void;
   removeToast: (id: string) => void;
+  toggleTheme: () => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
   toasts: [],
+  theme: 'light',
 
   addToast: (type, message) => {
     const id = Date.now().toString() + Math.random().toString(36).slice(2);
@@ -27,5 +30,9 @@ export const useUiStore = create<UiState>((set) => ({
 
   removeToast: (id) => {
     set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }));
+  },
+
+  toggleTheme: () => {
+    set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' }));
   },
 }));

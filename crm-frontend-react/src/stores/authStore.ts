@@ -40,13 +40,45 @@ export const useAuthStore = create<AuthState>((set) => ({
   loadFromStorage: () => {
     try {
       const token = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
       const userStr = localStorage.getItem('user');
-      if (token && userStr) {
+      if (!token || !userStr) return;
+
+      // Decode JWT and check expiration
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const now = Math.floor(Date.now() / 1000);
+
+      if (payload.exp && payload.exp > now) {
+        // Access token still valid
         const user = JSON.parse(userStr) as User;
         set({ user, isAuthenticated: true });
+      } else if (refreshToken) {
+        // Access token expired, try refresh
+        import('../api/client').then(({ default: apiClient }) => {
+          apiClient.post('/auth/refresh', { refreshToken })
+            .then((res) => {
+              localStorage.setItem('accessToken', res.data.accessToken);
+              const user = JSON.parse(userStr) as User;
+              set({ user, isAuthenticated: true });
+            })
+            .catch(() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              localStorage.removeItem('user');
+              set({ user: null, isAuthenticated: false });
+            });
+        });
+      } else {
+        // No refresh token — clean up
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
       }
     } catch {
-      // ignore
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      set({ user: null, isAuthenticated: false });
     }
   },
 }));

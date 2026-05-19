@@ -1,4 +1,5 @@
 import { useAuthStore } from '../../stores/authStore';
+import { useUiStore } from '../../stores/uiStore';
 import { formatDate } from '../../utils/dateUtils';
 import apiClient from '../../api/client';
 
@@ -16,6 +17,7 @@ const roleColors: Record<string, string> = {
 
 export default function Header() {
   const { user, logout } = useAuthStore();
+  const { theme, toggleTheme } = useUiStore();
 
   const handleResetData = async () => {
     if (!confirm('Вы уверены, что хотите сбросить все данные? Это действие нельзя отменить.')) return;
@@ -61,9 +63,18 @@ export default function Header() {
                   </span>
                 </span>
                 <button
+                  onClick={toggleTheme}
+                  className="text-sm px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition"
+                  title="Переключить тему"
+                  aria-label="Переключить тему"
+                >
+                  <i className={`fas fa-${theme === 'dark' ? 'sun' : 'moon'}`} />
+                </button>
+                <button
                   onClick={() => { if (confirm('Выйти из системы?')) logout(); }}
                   className="text-sm px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition"
                   title="Выйти"
+                  aria-label="Выйти"
                 >
                   <i className="fas fa-sign-out-alt" />
                 </button>

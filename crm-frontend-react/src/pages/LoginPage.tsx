@@ -18,6 +18,10 @@ export default function LoginPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    if (!username.trim() || !password.trim()) {
+      setError('Введите логин и пароль');
+      return;
+    }
     try {
       await login({ username, password });
       navigate('/dashboard');
@@ -100,7 +104,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-xs text-gray-400 mt-8">
-          &copy; 2024 BeautySalon Information System
+          &copy; 2026 BeautySalon Melissa &mdash; CRM System
         </p>
       </div>
     </div>

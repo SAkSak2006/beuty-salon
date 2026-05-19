@@ -8,9 +8,11 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import RevenueChart from '../components/charts/RevenueChart';
 import TopServicesChart from '../components/charts/TopServicesChart';
 import { addDays } from '../utils/dateUtils';
+import { useAuthStore } from '../stores/authStore';
 import type { Appointment, Client, Employee, Service, Payment, Schedule } from '../types';
 
 export default function DashboardPage() {
+  const user = useAuthStore((s) => s.user);
   const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
@@ -25,13 +27,14 @@ export default function DashboardPage() {
 
   const loadData = async () => {
     try {
+      const isMaster = user?.role === 'master';
       const [appts, cls, emps, svcs, pays, scheds] = await Promise.all([
         appointmentsApi.getAll(),
         clientsApi.getAll(),
         employeesApi.getAll(),
         servicesApi.getAll(),
-        paymentsApi.getAll(),
-        scheduleApi.getAll(),
+        isMaster ? Promise.resolve([]) : paymentsApi.getAll(),
+        isMaster ? Promise.resolve([]) : scheduleApi.getAll(),
       ]);
       setAppointments(appts);
       setClients(cls);
@@ -40,7 +43,6 @@ export default function DashboardPage() {
       setPayments(pays);
       setSchedules(scheds);
     } catch {
-      // try report endpoints as fallback
       try {
         const data = await reportsApi.dashboard();
         if (data) {

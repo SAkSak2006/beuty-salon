@@ -234,6 +234,13 @@ export default function ServicesPage() {
             </div>
           );
         })}
+        {categories.length === 0 && (
+          <div className="bg-white rounded-xl shadow-md p-12 text-center text-gray-400">
+            <i className="fas fa-cut text-5xl mb-4 block" />
+            <p className="text-lg font-medium">Нет категорий услуг</p>
+            <p className="text-sm mt-1">Сначала создайте категорию через раздел настроек</p>
+          </div>
+        )}
       </div>
 
       <ServiceModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleSave}
